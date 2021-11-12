@@ -23,19 +23,19 @@ entity Produto : cuid, managed {
 
 entity Compra : cuid, managed {
     item_compra : Association to many ItemCompra;
-    valor_total : Decimal;
+    valor_total : Decimal(1);
     fornecedor : Association to one Fornecedor;
 }
 
 entity ItemCompra : cuid, managed {
     produto : Association to one Produto;
     qtd_produto : Integer;
-    valor_unitario: Decimal
+    valor_unitario: Decimal;
 }
 entity ItemVenda : cuid, managed {
     produto : Association to one Produto;
     qtd_produto : Integer;
-    valor_unitario: Decimal
+    valor_unitario: Decimal;
 }
 
 entity Venda : cuid, managed {

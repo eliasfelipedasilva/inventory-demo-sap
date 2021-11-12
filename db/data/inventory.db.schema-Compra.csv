@@ -1,2 +1,2 @@
-ID;createdAt;createdBy;modifiedAt;modifiedBy;item_compra_ID;valor_total;fornecedor_ID
-8c5850d1-e679-4e13-8e28-c700be3a5a97;2021-11-12T18:30:24.374Z;Elias;2021-11-12T18:30:24.374Z;Elias;ef161525-6d80-4ade-829c-aa7ef48259ed;;83d6d092-4f2d-4302-9f5a-851289932904
+ID;createdAt;createdBy;modifiedAt;modifiedBy;valor_total;fornecedor_ID
+8c5850d1-e679-4e13-8e28-c700be3a5a97;2021-11-12T18:30:24.374Z;Elias;2021-11-12T18:30:24.374Z;Elias;10;83d6d092-4f2d-4302-9f5a-851289932904;;

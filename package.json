@@ -10,10 +10,18 @@
     "express": "^4"
   },
   "devDependencies": {
-    "sqlite3": "^5.0.2"
+    "axios": "^0.24.0",
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "chai-subset": "^1.6.0",
+    "jest": "^27.4.3",
+    "sqlite3": "^5.0.2",
+    "supertest": "^6.1.6",
+    "qunit": "^2.9.3"
   },
   "scripts": {
-    "start": "cds run"
+    "start": "cds run",
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
@@ -39,5 +47,10 @@
       "no-console": "off",
       "require-atomic-updates": "off"
     }
-  }
+  },
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+]
+
 }

@@ -17,12 +17,10 @@ module.exports = class  inventoryService extends cds.ApplicationService {
         // inicio funcoes de calculos
         const total_compra = await this.calcular_valor_total_compra(items);
         const aQtd_estoque_produtos = await this.calcular_qtd_estoque(items);
-
         //separando lista de produtos que serão atualizados
-        let listaProdutosAtualizados = aQtd_estoque_produtos.map((item)=>{return item.produto_ID})
+        let listaProdutosAtualizados = aQtd_estoque_produtos.map((item)=>{return item.ID})
 
         const aPrecoMedioPodutos = await this.calcular_preco_medio(listaProdutosAtualizados)
-        // console.log( aPrecoMedioPodutos) // depois de pegar todos os valores atualizar no banco 
         //fim funcoes de calculos
 
         const infos_produtos = await this.juntar_arrays_resultante([aQtd_estoque_produtos,aPrecoMedioPodutos])
@@ -30,8 +28,8 @@ module.exports = class  inventoryService extends cds.ApplicationService {
         // inicio atualizacoes em tabelas
        const oCompra = await UPDATE.entity(Compra).with({valor_total : total_compra}).where({"ID" : req.ID}); 
 
-       //implementar atualizacao de produtos com adicao dos estoques em funcao separada
-
+       // atualizacao de produtos com preco medio e  adicao dos estoques em funcao separada
+       await this.update_produtos(infos_produtos);
        //fim atualizacoes e tabelas
 
         return;
@@ -54,23 +52,24 @@ module.exports = class  inventoryService extends cds.ApplicationService {
                 if(item_id_produto === item.produto_ID)
                 return true;
             });
-
+            
             let adiconar_estoque_produto = 0;
             lista_de_items_do_produto.map((item)=>{
                  adiconar_estoque_produto = adiconar_estoque_produto+  item.qtd
             })
             aEstoquePodutos.push({
-                produto_ID : item_id_produto,
+                ID : item_id_produto,
                 adiconar_estoque_produto
             })
  
         });
-        return aEstoquePodutos;
+        const aProdutos = await SELECT.from(Produto).where({ID : lista_distinta_produtos})
+        const infosProdutos =  await this.juntar_arrays_resultante([aEstoquePodutos, aProdutos])
+        return infosProdutos;
 
     }
 
     async calcular_preco_medio(listaProdutosAtualizados){
-        // console.log(listaProdutosAtualizados)
 
         const lista_items = await SELECT.from('ItemCompra').where({"produto_ID" : listaProdutosAtualizados})
 
@@ -92,7 +91,7 @@ module.exports = class  inventoryService extends cds.ApplicationService {
             })
          
             aPrecoMedioPodutos.push({
-                produto_ID : item_id_produto,
+                ID : item_id_produto,
                 preco_medio : valor_total/total_qtd
             })
  
@@ -116,9 +115,17 @@ module.exports = class  inventoryService extends cds.ApplicationService {
           var arrayPrincipal /* arr1 */ =arrays[0];
           for(let i = arrays.length; i-- ; i>0){
             var arraySecundario /* arr2 */ = arrays[i]
-            mergePelaPropriedade(arrayPrincipal, arraySecundario, 'produto_ID');
+            mergePelaPropriedade(arrayPrincipal, arraySecundario, 'ID');
           }
           return arrayPrincipal;
 
+    }
+
+    async update_produtos(array_produtos){
+        for(let item in array_produtos){
+            let estoque = array_produtos[item].qtd_em_estoque + array_produtos[item].adiconar_estoque_produto;
+            await UPDATE.entity(Produto).with({preco_medio : array_produtos[item].preco_medio, qtd_em_estoque: estoque })
+            .where({"ID" : array_produtos[item].ID});
+        }
     }
 }

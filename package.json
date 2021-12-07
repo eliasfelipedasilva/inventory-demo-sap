@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^5",
+    "@sap/cds": "^5.7.1",
     "express": "^4"
   },
   "devDependencies": {
@@ -15,9 +15,8 @@
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.6.0",
     "jest": "^27.4.3",
-    "sqlite3": "^5.0.2",
-    "supertest": "^6.1.6",
-    "qunit": "^2.9.3"
+    "qunit": "^2.9.3",
+    "supertest": "^6.1.6"
   },
   "scripts": {
     "start": "cds run",
@@ -47,10 +46,5 @@
       "no-console": "off",
       "require-atomic-updates": "off"
     }
-  },
-  "moduleDirectories": [
-    "node_modules",
-    "src"
-]
-
+  }
 }

@@ -1,0 +1,14 @@
+{
+    "name": "invetory-demo",
+    "version": "1.0.0",
+    "engines": {
+        "node": "16.X"
+    },
+    "scripts": {
+        "start": "node node_modules/@sap/approuter/approuter.js"
+    },
+    "dependencies": {
+        "@sap/approuter": "^10.10.4",
+        "uuid": "^8.3.2"
+    }
+}
